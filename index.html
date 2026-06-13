@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Esame di Stato - Portfolio</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap');
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Manrope', sans-serif;
+    scroll-behavior:smooth;
+}
+
+body{
+    min-height:100vh;
+    background:linear-gradient(180deg, #0f172a 0%, #111827 45%, #f8fafc 100%);
+    color:#e2e8f0;
+}
+
+body::before{
+    content:'';
+    position:fixed;
+    inset:0;
+    background:
+        radial-gradient(circle at top left, rgba(99,102,241,0.22), transparent 18%),
+        radial-gradient(circle at top right, rgba(139,92,246,0.16), transparent 20%),
+        radial-gradient(circle at bottom left, rgba(59,130,246,0.18), transparent 18%);
+    pointer-events:none;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+/* HEADER */
+nav{
+    position:fixed;
+    top:16px;
+    left:50%;
+    transform:translateX(-50%);
+    width:calc(100% - 96px);
+    max-width:1180px;
+    background:rgba(15,23,42,0.90);
+    border:1px solid rgba(148,163,184,0.18);
+    backdrop-filter:blur(18px);
+    display:flex;
+    justify-content:center;
+    gap:24px;
+    padding:14px 22px;
+    border-radius:999px;
+    z-index:1000;
+    box-shadow:0 32px 80px rgba(15,23,42,0.35);
+}
+
+nav a{
+    color:#cbd5e1;
+    text-decoration:none;
+    font-size:14px;
+    font-weight:600;
+    letter-spacing:0.06em;
+    padding:8px 6px;
+    position:relative;
+    transition:color 0.25s ease;
+}
+
+nav a:hover,
+nav a.active{
+    color:#ede9fe;
+}
+
+nav a::after{
+    content:'';
+    position:absolute;
+    left:0;
+    bottom:-6px;
+    width:100%;
+    height:2px;
+    background:linear-gradient(90deg, #818cf8, #a78bfa);
+    opacity:0;
+    transform:scaleX(0.6);
+    transition:opacity 0.25s ease, transform 0.25s ease;
+}
+
+nav a:hover::after,
+nav a.active::after{
+    opacity:1;
+    transform:scaleX(1);
+}
+
+/* SEZIONI */
+section{
+    width:100%;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:160px 8%;
+}
+
+section:nth-child(odd){
+    background:rgba(255,255,255,0.04);
+}
+
+.section-inner{
+    width:100%;
+    max-width:1100px;
+}
+
+/* HERO */
+.hero{
+    text-align:left;
+}
+
+.hero h1{
+    font-size:4.6rem;
+    line-height:0.95;
+    letter-spacing:-1px;
+    font-weight:800;
+    max-width:860px;
+    background:linear-gradient(120deg, #f8fafc 0%, #c7d2fe 50%, #8b5cf6 100%);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+
+.hero .subtitle{
+    margin-top:16px;
+    display:inline-block;
+    padding:10px 18px;
+    border:1px solid rgba(229,231,235,0.40);
+    border-radius:999px;
+    color:#e2e8f0;
+    font-size:0.95rem;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    background:rgba(15,23,42,0.55);
+}
+
+.hero .quote{
+    margin-top:24px;
+    max-width:800px;
+    font-size:1.18rem;
+    color:#c7d2fe;
+    font-style:italic;
+    line-height:1.8;
+    border-left:4px solid rgba(167,139,250,0.8);
+    padding-left:18px;
+}
+
+.hero p{
+    margin-top:28px;
+    max-width:760px;
+    color:#cbd5e1;
+    font-size:1.1rem;
+    line-height:1.85;
+}
+
+.tag{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    margin-top:32px;
+    padding:12px 22px;
+    border-radius:999px;
+    color:#ffffff;
+    font-size:0.82rem;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:0.18em;
+    background:linear-gradient(135deg, rgba(99,102,241,0.95), rgba(139,92,246,0.95));
+    box-shadow:0 20px 40px rgba(67,56,202,0.20);
+}
+
+/* BLOCK CONTENT */
+.block{
+    background:rgba(15,23,42,0.95);
+    padding:44px;
+    border-radius:32px;
+    border:1px solid rgba(148,163,184,0.16);
+    box-shadow:0 32px 90px rgba(15,23,42,0.35);
+}
+
+h2{
+    font-size:2.8rem;
+    margin-bottom:24px;
+    color:#eef2ff;
+}
+
+h3{
+    font-size:1.3rem;
+    margin-bottom:12px;
+    color:#c7d2fe;
+}
+
+p{
+    color:#cbd5e1;
+    font-size:1.05rem;
+    line-height:1.9;
+}
+
+/* GRID CARDS */
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:28px;
+    margin-top:32px;
+}
+
+.card{
+    position:relative;
+    overflow:hidden;
+    min-height:220px;
+    border-radius:28px;
+    padding:32px;
+    background:linear-gradient(180deg, rgba(15,23,42,0.95), rgba(30,41,59,0.95));
+    border:1px solid rgba(148,163,184,0.14);
+    box-shadow:0 18px 50px rgba(15,23,42,0.30);
+    transition:transform 0.35s ease, box-shadow 0.35s ease, background 0.35s ease;
+}
+
+.card::before{
+    content:'';
+    position:absolute;
+    inset:0;
+    background:radial-gradient(circle at top right, rgba(139,92,246,0.18), transparent 32%);
+    opacity:0.8;
+    pointer-events:none;
+}
+
+.card:hover{
+    transform:translateY(-12px);
+    box-shadow:0 28px 80px rgba(15,23,42,0.42);
+    background:linear-gradient(180deg, rgba(15,23,42,0.98), rgba(39,39,80,0.98));
+}
+
+.card h3{
+    position:relative;
+    z-index:1;
+    color:#ede9fe;
+}
+
+.card p{
+    position:relative;
+    z-index:1;
+}
+
+/* IMAGE PLACEHOLDER */
+.img{
+    width:100%;
+    min-height:220px;
+    margin-top:26px;
+    border-radius:28px;
+    padding:28px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    color:#eef2ff;
+    background:linear-gradient(135deg, rgba(67,56,202,0.95), rgba(139,92,246,0.9));
+    box-shadow:0 22px 60px rgba(67,56,202,0.24);
+    font-size:1.05rem;
+    line-height:1.7;
+}
+
+/* TIMELINE */
+.timeline{
+    position:relative;
+    padding-left:42px;
+    max-width:920px;
+}
+
+.timeline::before{
+    content:'';
+    position:absolute;
+    left:18px;
+    top:0;
+    bottom:0;
+    width:4px;
+    background:linear-gradient(180deg, #818cf8, #a78bfa);
+    border-radius:999px;
+}
+
+.event{
+    position:relative;
+    margin-bottom:44px;
+    padding-left:24px;
+}
+
+.event::before{
+    content:'';
+    position:absolute;
+    left:-30px;
+    top:6px;
+    width:16px;
+    height:16px;
+    border-radius:999px;
+    background:linear-gradient(135deg, #818cf8, #a78bfa);
+    box-shadow:0 0 0 4px rgba(15,23,42,0.65);
+}
+
+.event h3{
+    color:#e0e7ff;
+}
+
+.event p{
+    color:#cbd5e1;
+    margin-bottom:0;
+}
+
+/* LINK BOX */
+.link{
+    margin-top:36px;
+    padding:28px;
+    border-radius:28px;
+    border:1px solid rgba(148,163,184,0.18);
+    background:rgba(15,23,42,0.92);
+    box-shadow:0 24px 70px rgba(15,23,42,0.25);
+    transition:transform 0.3s ease, border-color 0.3s ease;
+}
+
+.link:hover{
+    transform:translateY(-4px);
+    border-color:rgba(167,139,250,0.3);
+}
+
+.link a{
+    color:#c7d2fe;
+    font-weight:700;
+    text-decoration:none;
+}
+
+.link a:hover{
+    color:#eef2ff;
+}
+
+footer{
+    text-align:center;
+    padding:60px 20px;
+    color:#94a3b8;
+    font-weight:500;
+    background:transparent;
+}
+</style>
+
+</head>
+
+<body>
+
+<nav>
+    <a href="#home">Introduzione</a>
+    <a href="#profilo">Profilo</a>
+    <a href="#futuro">Futuro</a>
+    <a href="#civica">Educazione Civica</a>
+    <a href="#esperienze">Esperienze</a>
+</nav>
+
+<!-- INTRO -->
+
+<section id="home" class="hero">
+    <div>
+        <h1>Angelo Cutolo</h1>
+        <p class="subtitle">Liceo E. Pascal di Pompei - Scienze Applicate</p>
+        <p class="quote">"Siamo soli, ma tutti connessi" — Hideo Kojima</p>
+        <p>
+            Questo portfolio racconta il mio percorso al liceo:
+            non solo studio, ma crescita personale, esperienze e consapevolezza del futuro.
+        </p>
+        <span class="tag">Esame di Stato 2026</span>
+    </div>
+</section>
+
+<!-- PROFILO -->
+
+<section id="profilo">
+    <div class="block">
+        <h2>Profilo personale</h2>
+
+    <p>
+        Il mio percorso scolastico è stato una crescita costante, fatta di studio,
+        impegno e scelte importanti. Durante gli anni ho affrontato momenti difficili,
+        carichi di lavoro pesanti e situazioni in cui era facile sentirsi scoraggiati.
+    </p>
+
+    <p>
+        In quei momenti ho capito quanto sia fondamentale avere al fianco le persone giuste:
+        compagni di classe con cui confrontarmi, insegnanti che mi hanno spiegato con pazienza
+        e la famiglia che mi ha sostenuto con fiducia. Questo supporto mi ha aiutato a superare
+        le difficoltà e a non perdere di vista gli obiettivi.
+    </p>
+
+    <p>
+        Ho imparato a gestire le priorità, a organizzarmi meglio e a trovare un metodo di studio
+        più efficace. Ogni problema superato è diventato un insegnamento: ho sviluppato
+        resilienza, responsabilità e una visione più chiara del mio futuro.
+    </p>
+</div>
+
+
+</section>
+
+<!-- FUTURO -->
+
+<section id="futuro">
+    <div class="block">
+        <h2>Progetti futuri</h2>
+
+
+    <p>
+        Il futuro rappresenta una fase di scelta e responsabilità.
+        Vorrei dedicarmi all'informatica, perché oggi è fondamentale
+        e offre competenze utili in molti ambiti di studio. La tecnologia
+        è parte integrante della vita quotidiana e studiarla mi permette di
+        comprendere meglio il mondo moderno, di creare soluzioni concrete e
+        di essere pronto a nuove sfide.
+    </p>
+
+    <p>
+        Studiare informatica significa sviluppare pensiero critico, capacità
+        di risolvere problemi complessi e un approccio analitico che aiuta anche
+        altre materie. È un percorso che può aprire diverse strade, dalla programmazione
+        alla progettazione di sistemi intelligenti, e che migliora la mia
+        attitudine al lavoro di gruppo e alla comunicazione tecnica.
+    </p>
+
+    <div class="grid">
+        <div class="card">
+            <h3>Informatica</h3>
+            <p>Un percorso che apre a competenze utili, logiche e creative.</p>
+        </div>
+
+        <div class="card">
+            <h3>Competenze digitali</h3>
+            <p>Fondamentali per comprendere e usare le tecnologie moderne.</p>
+        </div>
+
+        <div class="card">
+            <h3>Metodo</h3>
+            <p>Organizzazione, rigore e approccio pratico allo studio.</p>
+        </div>
+    </div>
+</div>
+
+
+</section>
+
+<!-- EDUCAZIONE CIVICA -->
+
+<section id="civica">
+    <div class="block">
+        <h2>Educazione Civica</h2>
+
+
+    <p>
+        Il percorso di educazione civica ha permesso di approfondire temi fondamentali
+        per la società contemporanea. In particolare, ho focalizzato la mia riflessione
+        sulla sostenibilità: come le nostre scelte quotidiane influenzano il pianeta,
+        come le responsabilità individuali si trasformano in azioni collettive,
+        e come il futuro dipende dalle decisioni che prendiamo oggi.
+    </p>
+
+    <div class="grid">
+        <div class="card">
+            <h3>Sostenibilità</h3>
+            <p>Ambiente, economia e società in equilibrio per il futuro generazionale.</p>
+        </div>
+    </div>
+
+    <div class="link">
+        🎯 Leggi la mia presentazione completa sulla sostenibilità: <br>
+        <a href="#">Accedi alla presentazione</a>
+    </div>
+</div>
+
+
+</section>
+
+<!-- ESPERIENZE -->
+
+<section id="esperienze">
+    <div class="block">
+        <h2>Esperienze scolastiche</h2>
+
+
+    <div class="timeline">
+
+        <div class="event">
+            <h3>PCTO</h3>
+            <p>Mi ha dato modo di capire di più la facciata del lavoro,
+            avvicinandomi alle dinamiche reali del mondo professionale.</p>
+        </div>
+
+        <div class="event">
+            <h3>Orientamento</h3>
+            <p>Ho partecipato al progetto "Orientiamo il futuro - Federico II"
+            con temi legati all’Informatica come IoT e intelligenza artificiale,
+            e al progetto Orizzonti Campus D dove a Sant’Angelo abbiamo visitato
+            i dipartimenti di biologia e chimica. In generale il viaggio in Grecia
+            ci ha permesso di ampliare le conoscenze e la visione globale.</p>
+        </div>
+
+        <div class="event">
+            <h3>Progetti scolastici</h3>
+            <p>Esperienza in laboratorio con strumenti di analisi e sperimentazione
+            che ha reso concreto il mio apprendimento scientifico. Ho potuto lavorare
+            su esperimenti reali, comprendere processi tecnici e sviluppare un approccio
+            più pratico allo studio. Questo mi ha aiutato a vedere la teoria sotto una
+            luce diversa e ad apprezzare quanto sia importante imparare facendo.</p>
+        </div>
+
+    </div>
+
+    <div class="link">
+        🎬 Presentazione completa delle esperienze: <br>
+        <a href="#">Apri la presentazione</a>
+    </div>
+</div>
+
+
+</section>
+
+<footer>
+    Portfolio Esame di Stato © 2026
+</footer>
+
+</body>
+</html>
